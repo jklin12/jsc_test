@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jsc_test/bloc/news/headlines_bloc.dart';
 import 'package:jsc_test/bloc/news/news_bloc.dart';
 import 'package:jsc_test/model/news/article_model.dart';
-import 'package:jsc_test/ui/home_screen/news_headlines.dart';
-import 'package:jsc_test/ui/home_screen/news_list.dart';
+import 'package:jsc_test/ui/home_screen/widget/news_headlines.dart';
+import 'package:jsc_test/ui/home_screen/widget/news_list.dart';
 import 'package:jsc_test/widget/app_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -95,6 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         hintText: "Search.....",
                         suffixIcon: IconButton(
                             onPressed: () {
+                              setState(() {
+                                searchCtrl.clear();
+                              });
                               _newsBloc.add(ClearSearchEvent());
                             },
                             icon: const Icon(Icons.cancel_outlined))),
@@ -103,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       _debounce = Timer(const Duration(milliseconds: 500), () {
                         if (value.isNotEmpty) {
                           _newsBloc.add(SearchNewsEvent(searchCtrl.text));
-                        }else{
+                        } else {
                           _newsBloc.add(ClearSearchEvent());
                         }
                       });
